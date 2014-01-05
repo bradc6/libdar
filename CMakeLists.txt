@@ -11,10 +11,28 @@ cmake_minimum_required(VERSION 2.8.6)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules
                       ${CMAKE_MODULE_PATH})
 
-find_package(Doxygen)
-find_package(ZLIB)
-find_package(BZip2)
-find_package(LZO)
+option(DISABLEDOXYGEN "Disable Doxygen reference documentation from being built" OFF)
+option(DISABLEZLIB "Disable ZLIB compression support" OFF)
+option(DISABLEBZIP2"Disable BZIP2 compression support" OFF)
+option(DISABLELZO "Disable LZO compression support" OFF)
+
+
+#Find optional dependancies
+if(NOT DISABLEDOXYGEN)
+	find_package(Doxygen)
+endif()
+
+if(NOT DISABLEZLIB)
+	find_package(ZLIB)
+endif()
+
+if(NOT DISABLEBZIP2)
+	find_package(BZip2)
+endif()
+
+if(NOT DISABLELZO)
+	find_package(LZO)
+endif()
 
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(LIBDAR_SOURCE_DIR ${SOURCE_DIR}/libdar)
@@ -165,3 +183,4 @@ set(libdar-Source
 	)
 
 add_library(dar ${libdar-Source})
+target_link_libraries(dar ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${LZO_LIBS})
