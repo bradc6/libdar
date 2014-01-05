@@ -4,3 +4,6 @@
 *.lo
 Makefile.in
 *.m4
+
+#Cmake build folder
+build/
